@@ -14,12 +14,12 @@ export default function App() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
+    const [selectCard, setSelectCard] = useState(false);
     const handleSearch = async (query: string) => {
+        setIsLoading(true);
+        setIsError(false);
+        setMovies([]);
         try {
-            setIsLoading(true);
-            setIsError(false);
-            setMovies([]);
             const data = await fetchMovies(query);
             if (data.length === 0) {
                 toast.error("No movies found for your request.");
@@ -35,10 +35,11 @@ export default function App() {
     return (
         <div className={css.app}>
             <SearchBar onSubmit={handleSearch} />
+            <ToasterMessage />
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
             {movies.length > 0 && <MovieGrid onSelect={() => { }} movies={movies} />}
-            <ToasterMessage />
+            {selectCard && }
         </div>
     )
 }
