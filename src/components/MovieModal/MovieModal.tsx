@@ -5,20 +5,19 @@ import { useEffect } from "react";
 
 interface MovieModalProps {
     movie: Movie;
-    onClose: () => void;
-    children: React.ReactNode;
+    onClose: (movie: Movie | null) => void;
 }
 
 export default function MovieModal({ movie: { backdrop_path, title, overview, release_date, vote_average }, onClose }: MovieModalProps) {
     const handleBackdropClose = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) {
-            onClose();
+            onClose(null);
         }
     };
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
-                onClose();
+                onClose(null);
             }
         };
 
@@ -33,7 +32,7 @@ export default function MovieModal({ movie: { backdrop_path, title, overview, re
     return createPortal(
         <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClose}>
             <div className={css.modal}>
-                <button className={css.closeButton} aria-label="Close modal" onClick={onClose}>
+                <button className={css.closeButton} aria-label="Close modal" onClick={() => onClose(null)}>
                     &times;
                 </button>
                 <img

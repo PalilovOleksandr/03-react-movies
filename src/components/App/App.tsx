@@ -8,13 +8,14 @@ import MovieGrid from "../MovieGrid/MovieGrid";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { fetchMovies } from "../../services/movieService";
+import MovieModal from "../MovieModal/MovieModal";
 
 
 export default function App() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [selectCard, setSelectCard] = useState(false);
+    const [selectedCard, setSelectedCard] = useState<Movie | null>(null);
     const handleSearch = async (query: string) => {
         setIsLoading(true);
         setIsError(false);
@@ -38,8 +39,8 @@ export default function App() {
             <ToasterMessage />
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
-            {movies.length > 0 && <MovieGrid onSelect={() => { }} movies={movies} />}
-            {selectCard && }
+            {movies.length > 0 && <MovieGrid onSelect={setSelectedCard} movies={movies} />}
+            {selectedCard && <MovieModal onClose={setSelectedCard} movie={selectedCard} />}
         </div>
     )
 }
